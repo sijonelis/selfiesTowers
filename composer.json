@@ -1,0 +1,15 @@
+{
+    "name": "Vilkazz/algoritmai_paskaita",
+    "require": {
+        "phpunit/phpunit": "~4.1"
+    },
+    "authors": [
+        {
+            "name": "S J",
+            "email": "a@l.r"
+        }
+    ],
+  "autoload": {
+    "psr-4": {"forevermore\\":"./src"}
+  }
+}
