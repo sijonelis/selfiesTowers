@@ -124,10 +124,11 @@ class Example
                         next($distanceToThePreviousTower);
                     }
 
+                    //+1 zemiau esanciose funkcijose atsiranda, nes ismestas bokstas pats patampa nefotografuojamu keliones tasku
                     if ($this->has_next($distanceToThePreviousTower)) {
                         next($distanceToThePreviousTower);
                         $distanceToThePreviousTower[key($distanceToThePreviousTower)] += $distanceToThePreviousTower[$minDistanceKey] + 1;
-                    } else {
+                    } else {//edge case jei atmetamas priespaskutinis bokstas
                         prev($distanceToThePreviousTower);
                         $distanceToThePreviousTower[key($distanceToThePreviousTower)] += $distanceToThePreviousTower[$minDistanceKey] + 1;
                     }
