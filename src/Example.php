@@ -11,6 +11,8 @@ namespace forevermore;
 
 class Example
 {
+    private $highestTowers;
+    private $distanceToThePreviousTower;
     public function run()
     {
         return 1;
@@ -100,28 +102,10 @@ class Example
 
     function calculateSelfies($towers)
     {
-        $previousTowerHeight = 0;
-        $previousTowerIndex = 0;
-        $highestTowers = null;
-        $distanceToThePreviousTower = null;
+        $this->findTallest($towers); //O(n)
 
-        for ($i = 0; $i < count($towers); $i++) { //o(n) gauname auksciausius bokstus
-            if ($towers[$i] > $previousTowerHeight) {
-                if ($i != count($towers) - 1) {
-                    if ($towers[$i] > $towers[$i + 1]) {
-                        $highestTowers[] = $i;
-                        if ($previousTowerIndex != 0) {
-                            $distanceToThePreviousTower[] = $i - $previousTowerIndex - 1;
-                        }
-                        $previousTowerIndex = $i;
-                    }
-                } else {
-                    $highestTowers[] = $i;
-                    $distanceToThePreviousTower[] = $i - $previousTowerIndex - 1;
-                }
-            }
-            $previousTowerHeight = $towers[$i];
-        }
+        $highestTowers = $this->highestTowers;
+        $distanceToThePreviousTower = $this->distanceToThePreviousTower;
 
         if ($highestTowers == null) { //jei auksciuasiu bokstu nera
             $selfieCount = 0;
@@ -132,7 +116,7 @@ class Example
                 $maxSelfieCount = count($highestTowers);
                 $selfieCount = count($highestTowers);
                 $allowedSelfieCount = min($distanceToThePreviousTower);
-
+                //iteracinis sprendimas kol leidziamu selfiu kiekis netampa didesnis arba lygus maksimaliam galimam selfiu kiekiui
                 while ($allowedSelfieCount < $maxSelfieCount && count($distanceToThePreviousTower) > 1) {
                     $minDistanceKey = array_search(min($distanceToThePreviousTower), $distanceToThePreviousTower);
 
@@ -175,21 +159,31 @@ class Example
     }
 
     function findTallest($towers){
-        $previousTowerHeight = 0;
+        $this->highestTowers = null;
+        $this->distanceToThePreviousTower = null;
         $highestTowers = null;
-        for ($i = 0; $i < count($towers); $i++){
-            if ($towers[$i] > $previousTowerHeight){
-                if ($i != count($towers) - 1){
-                    if ($towers[$i] > $towers[$i+1]){
+        $distanceToThePreviousTower = null;
+        $previousTowerHeight = 0;
+        $previousTowerIndex = 0;
+        for ($i = 0; $i < count($towers); $i++) { //o(n) gauname auksciausius bokstus
+            if ($towers[$i] > $previousTowerHeight) {
+                if ($i != count($towers) - 1) {
+                    if ($towers[$i] > $towers[$i + 1]) {
                         $highestTowers[] = $i;
+                        if ($previousTowerIndex != 0) {
+                            $distanceToThePreviousTower[] = $i - $previousTowerIndex - 1;
+                        }
+                        $previousTowerIndex = $i;
                     }
-                }
-                else {
+                } else {
                     $highestTowers[] = $i;
+                    $distanceToThePreviousTower[] = $i - $previousTowerIndex - 1;
                 }
             }
             $previousTowerHeight = $towers[$i];
         }
+        $this->highestTowers = $highestTowers;
+        $this->distanceToThePreviousTower = $distanceToThePreviousTower;
         return $highestTowers;
     }
 }
